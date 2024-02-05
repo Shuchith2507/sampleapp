@@ -1,16 +1,23 @@
-name: Run Shell Script
+name: Push-to-EC2
 
-on:
-  push:
-    branches:
-      - main  # Change this to your main branch name
+on: push
 
 jobs:
-  run-script:
+  deploy:
+    name: Push to EC2 Instance
     runs-on: self-hosted
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout the code
         uses: actions/checkout@v2
+
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
 
       - name: Set up Git
         run: |
