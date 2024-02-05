@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: appleboy/ssh-action@master       
+
+      - name: Hello
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
