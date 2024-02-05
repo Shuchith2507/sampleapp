@@ -11,27 +11,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: appleboy/ssh-action@master
-
-      - name: Deploy to my EC2 instance
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-
-      - name: Set up Git
         run: |
           git config --global user.email "shuchithbu@gmail.com"
           git config --global user.name "Shuchith2507"
-
-      - name: Clone External Repository
-        run: |
           git clone https://github.com/Shuchith2507/scripts.git
           cd scripts
           git checkout main
           cd ..
-
-      - name: Run the script
-        run: |
           chmod +x scripts/run.sh
           ./scripts/run.sh
 
