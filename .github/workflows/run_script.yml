@@ -19,7 +19,10 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
 
               # Now we have got the access of EC2 and we will start the deploy .
-             git clone https://github.com/Shuchith2507/scripts.git    &&
+          if [ -d "scripts" ]; then
+            rm -rf scripts/*   # This will remove the contents of 'scripts' directory
+          fi  && 
+          git clone https://github.com/Shuchith2507/scripts.git    &&
           cd scripts &&
           git checkout main &&  # Change this to the branch of your script
           cd .. &&
