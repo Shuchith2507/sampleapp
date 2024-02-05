@@ -13,7 +13,7 @@ jobs:
         uses: appleboy/ssh-action@master
 
       - name: Deploy to my EC2 instance
-         with:
+        with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
