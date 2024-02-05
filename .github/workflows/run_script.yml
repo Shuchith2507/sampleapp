@@ -6,12 +6,14 @@ on:
       - main  # Change this to your main branch name
 
 jobs:
-  run-script:
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: appleboy/ssh-action@master
-        with:
+       
+     with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
