@@ -1,38 +1,23 @@
-name: Push-to-EC2
+name: Deploy
 
 on:
   push:
-    branches:
-      - main 
+    branches: [ dev ]
 
 jobs:
-  deploy:
-    name: Push to EC2 Instance
-    runs-on: ubuntu_latest
-
+  Deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
-      - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@v2.1.5
+      - uses: actions/checkout@v2
+      - name: Build & Deploy
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
-
-      - name: Set up Git
+            PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+            HOSTNAME: ${{secrets.HOST_DNS}}
+            USER_NAME: ${{secrets.USERNAME}}
         run: |
-          git config --global user.email "shuchithbu@gmail.com"
-          git config --global user.name "Shuchith2507"
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
 
-      - name: Clone External Repository
-        run: |
-          git clone https://github.com/Shuchith2507/scripts.git
-          cd scripts
-          git checkout main  # Change this to the branch of your script
-          cd ..
-          chmod +x scripts/run.sh
-          ./scripts/run.sh
-
+              # Now we have got the access of EC2 and we will start the deploy .
+              cd /home/ubuntu/
