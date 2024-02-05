@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: appleboy/ssh-action@master       
-
-      - name: Hello
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Run Script
         run: |
           git config --global user.email "shuchithbu@gmail.com"
           git config --global user.name "Shuchith2507"
