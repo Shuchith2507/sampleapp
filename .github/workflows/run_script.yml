@@ -12,6 +12,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME}}
+          TARGET: ${{ secrets.TARGET_DIR }}
+
       - name: Set up Git
         run: |
           git config --global user.email "shuchithbu@gmail.com"
@@ -21,8 +29,11 @@ jobs:
         run: |
           git clone https://github.com/Shuchith2507/scripts.git
           cd scripts
-          git checkout main  # Change this to the branch of your script
+          git checkout main
           cd ..
+
+      - name: Run the script
+        run: |
           chmod +x scripts/run.sh
           ./scripts/run.sh
 
