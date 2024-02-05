@@ -10,34 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: uses: appleboy/ssh-action@master
 
       - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME}}
-          TARGET: ${{ secrets.TARGET_DIR }}
+         with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
 
       - name: Set up Git
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME}}
-          TARGET: ${{ secrets.TARGET_DIR }}
         run: |
           git config --global user.email "shuchithbu@gmail.com"
           git config --global user.name "Shuchith2507"
 
       - name: Clone External Repository
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME}}
-          TARGET: ${{ secrets.TARGET_DIR }}        
         run: |
           git clone https://github.com/Shuchith2507/scripts.git
           cd scripts
@@ -45,12 +31,6 @@ jobs:
           cd ..
 
       - name: Run the script
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME}}
-          TARGET: ${{ secrets.TARGET_DIR }}
         run: |
           chmod +x scripts/run.sh
           ./scripts/run.sh
