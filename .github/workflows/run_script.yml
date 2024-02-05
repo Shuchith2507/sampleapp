@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@master
 
       - name: Deploy to my EC2 instance
          with:
