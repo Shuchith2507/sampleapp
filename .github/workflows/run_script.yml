@@ -1,23 +1,25 @@
-name: Run Shell Script
+
+name: Deploy to EC2
 
 on:
   push:
     branches:
-      - main  # Change this to your main branch name
+      - main
 
 jobs:
-  build:
-    name: Build
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
 
-      - name: Run Script
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Other repo
         run: |
           git config --global user.email "shuchithbu@gmail.com"
           git config --global user.name "Shuchith2507"
@@ -26,5 +28,7 @@ jobs:
           git checkout main
           cd ..
           chmod +x scripts/run.sh
-          ./scripts/run.sh
 
+      - name: Connect to EC2 and run commands
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.172.134.154 "./scripts/run.sh"
