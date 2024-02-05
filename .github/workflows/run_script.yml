@@ -1,4 +1,4 @@
-ame: Run Shell Script
+name: Run Shell Script
 
 on:
   push:
