@@ -20,8 +20,8 @@ jobs:
 
               # Now we have got the access of EC2 and we will start the deploy .
           if [ -d "scripts" ]; then
-            rm -rf scripts/*   # This will remove the contents of 'scripts' directory
-          fi  && 
+            rm -rf scripts
+          fi  &&
           git clone https://github.com/Shuchith2507/scripts.git    &&
           cd scripts &&
           git checkout main &&  # Change this to the branch of your script
