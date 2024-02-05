@@ -1,0 +1,28 @@
+ame: Run Shell Script
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.email "shuchithbu@gmail.com"
+          git config --global user.name "Shuchith2507"
+
+      - name: Clone External Repository
+        run: |
+          git clone https://github.com/Shuchith2507/scripts.git
+          cd scripts
+          git checkout main  # Change this to the branch of your script
+          cd ..
+          chmod +x scripts/run.sh
+          ./scripts/run.sh
+
